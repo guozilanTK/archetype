@@ -1,0 +1,77 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <!--通用 Mapper 插件，可以生成带注解的实体类-->
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="tk.guozilan.base.service.GzlMapper"/>
+        </plugin>
+
+        #set( $lastIndex = $package.lastIndexOf('.') + 1 )
+        #set( $projectName = $package.substring($lastIndex) )
+        <!--通用代码生成器插件-->
+        <plugin type="tk.mybatis.mapper.generator.TemplateFilePlugin">
+            <property name="targetProject" value="../${parentArtifactId}-api/src/main/java"/>
+            <property name="targetPackage" value="${package}.api"/>
+            <property name="packageName" value="${package}"/>
+            <property name="templatePath" value="generator/guozilan/api.ftl"/>
+            <property name="fileName" value="${symbol_dollar}{tableClass.shortClassName}Service.java"/>
+        </plugin>
+        <plugin type="tk.mybatis.mapper.generator.TemplateFilePlugin">
+            <property name="targetProject" value="../${parentArtifactId}-service/src/main/java"/>
+            <property name="targetPackage" value="${package}.service"/>
+            <property name="packageName" value="${package}"/>
+            <property name="templatePath" value="generator/guozilan/service.ftl"/>
+            <property name="fileName" value="${symbol_dollar}{tableClass.shortClassName}ServiceImpl.java"/>
+        </plugin>
+        <plugin type="tk.mybatis.mapper.generator.TemplateFilePlugin">
+            <property name="targetProject" value="../${parentArtifactId}-service/src/main/java"/>
+            <property name="targetPackage" value="${package}.mapper"/>
+            <property name="packageName" value="${package}"/>
+            <property name="templatePath" value="generator/guozilan/mapper.ftl"/>
+            <property name="fileName" value="${symbol_dollar}{tableClass.shortClassName}Mapper.java"/>
+        </plugin>
+        <plugin type="tk.mybatis.mapper.generator.TemplateFilePlugin">
+            <property name="targetProject" value="../${parentArtifactId}-service/src/main/resources"/>
+            <property name="targetPackage" value="${package}.mapper"/>
+            <property name="packageName" value="${package}"/>
+            <property name="templatePath" value="generator/guozilan/mapperXml.ftl"/>
+            <property name="fileName" value="${symbol_dollar}{tableClass.shortClassName}Mapper.xml"/>
+        </plugin>
+        <plugin type="tk.mybatis.mapper.generator.TemplateFilePlugin">
+            <property name="targetProject" value="../${parentArtifactId}-controller/src/main/java"/>
+            <property name="targetPackage" value="${package}.controller"/>
+            <property name="packageName" value="${package}"/>
+            <property name="templatePath" value="generator/guozilan/controller.ftl"/>
+            <property name="fileName" value="${symbol_dollar}{tableClass.shortClassName}Controller.java"/>
+        </plugin>
+        <plugin type="tk.mybatis.mapper.generator.TemplateFilePlugin">
+            <property name="targetProject" value="../${parentArtifactId}-web/src/main/webapp"/>
+            <property name="targetPackage" value="WEB-INF.view.${projectName}"/>
+            <property name="templatePath" value="generator/guozilan/web-layui-main.ftl"/>
+            <property name="fileName" value="${symbol_dollar}{tableClass.lowerCaseName}-main.jsp"/>
+        </plugin>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/test"
+                        userId="root"
+                        password="">
+        </jdbcConnection>
+
+        <javaModelGenerator targetPackage="${package}.model"
+                            targetProject="../${parentArtifactId}-api/src/main/java"/>
+
+        <table tableName="country">
+            <!--<property name="rootClass" value="tk.guozilan.base.model.BaseId"/>-->
+            <!--分页选择下面这个-->
+            <property name="rootClass" value="tk.guozilan.base.model.BasePage"/>
+        </table>
+    </context>
+</generatorConfiguration>
